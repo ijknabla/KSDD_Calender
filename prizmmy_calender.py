@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import datetime
 
 def get_contents(par_url): #prizmmy
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
     return soup.find_all(class_="detail")[2].text
 
 def get_calender(par_url,include_contents=True,urlonly=False): #prizmmy
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
 
     a = soup.find_all("dt")
@@ -40,4 +40,4 @@ if __name__ == "__main__":
     par_url = "http://avex.jp/prizmmy/live?year=2016"
     a = get_calender(par_url,include_contents = False)
     for i in a:
-        print i[0],i[1],i[2]
+        print((i[0],i[1],i[2]))

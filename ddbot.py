@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import csv
 import os
 import datetime
@@ -9,7 +9,7 @@ import prizmmy_calender
 import dlh_calender
 
 def get_contents(par_url):
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
 
     output_str = ""
@@ -42,7 +42,7 @@ def get_contents(par_url):
     return output_str
 
 def get_calender(par_url,include_contents=True,urlonly=False):
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
 
     b = soup.find_all("a")
@@ -135,7 +135,7 @@ def diff_pages(par_url,csv_file,csv_saveonly = False):
             a = dlh_calender.get_calender(par_url,include_contents = False,urlonly = True)
         else:
             a = get_calender(par_url,include_contents = False,urlonly = True)
-            print a
+            print(a)
             
         f = open("cal_log/" + csv_file, 'w')
         writer = csv.writer(f, lineterminator='\n')
@@ -164,6 +164,6 @@ if __name__ == "__main__":
     #print diff_pages(par_url,"GEM_event_link.csv")
     #print diff_pages("http://avex.jp/prizmmy/live/?year=2016","test.csv")
     #m = get_calender("http://avex.jp/x21/live/index.php?viewmode=vertical&type=all&year=2016&month=1",include_contents = False,urlonly = True)
-    print diff_pages("http://avex.jp/x21/live/index.php?viewmode=vertical&type=all&year=2016&month=1","x21.csv")
+    print((diff_pages("http://avex.jp/x21/live/index.php?viewmode=vertical&type=all&year=2016&month=1","x21.csv")))
 
     #print m
