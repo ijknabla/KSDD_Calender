@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import datetime
 
 def get_contents(par_url):
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
     return soup.find_all('div', attrs={'id':'singleContentWrapper'})[0].text[:-8]
     
 def get_calender(par_url,include_contents=True,urlonly=False):
-    res = urllib2.urlopen(par_url)
+    res = urllib.request.urlopen(par_url)
     soup = BeautifulSoup(res.read(), "html.parser")
 
     a = soup.find_all("dt")
@@ -38,4 +38,4 @@ def get_calender(par_url,include_contents=True,urlonly=False):
 
 if __name__ == "__main__":
     par_url = "http://dorothylittlehappy.jp/2016"
-    print get_calender(par_url,include_contents=False,urlonly=True)
+    print((get_calender(par_url,include_contents=False,urlonly=True)))

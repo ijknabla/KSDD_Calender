@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import httplib2
 import os
 
@@ -49,18 +49,18 @@ def get_credentials():
             credentials = tools.run_flow(flow, store, flags)
         else: # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
-        print('Storing credentials to ' + credential_path)
+        print(('Storing credentials to ' + credential_path))
     return credentials
 
 def add_event(cal_data,cal_year,cal_month,service,calID,colorID):
     for i in cal_data:
         if isinstance(i[0],int) == True:
-            print (i[0])
+            print((i[0]))
         else:
             cal_year = i[0].year
             cal_month = i[0].month
             i[0] = i[0].day
-            print (cal_month,i[0])
+            print((cal_month,i[0]))
             
         caldate = datetime.datetime(year=cal_year,month=cal_month,day=i[0]).strftime("%Y-%m-%d")
         
@@ -85,7 +85,7 @@ def create_calender(service,name):
     }
     
     created_calendars = service.calendars().insert(body=calendar).execute()
-    print (created_calendars['id'])
+    print((created_calendars['id']))
 
 def auto_add_events(service,url,groupname,calID,colorID):
     now = datetime.datetime.now()
@@ -93,7 +93,7 @@ def auto_add_events(service,url,groupname,calID,colorID):
     for i in range(-12,13):
         caldate = datetime.datetime.fromtimestamp(time.mktime((now.year,now.month + i,1,0,0,0,0,0,0)))
 
-        print (caldate.year,caldate.month)
+        print((caldate.year,caldate.month))
         par_url = url + str(caldate.year) + "&month=" + str(caldate.month)
         a = ddbot.diff_pages(par_url,groupname + "_event_link_" + str(caldate.year) + "_" + str(caldate.month) + ".csv")
         add_event(a,caldate.year,caldate.month,service,calID,colorID)
@@ -119,9 +119,9 @@ def main():
     auto_add_events(service,"http://solidemo.jp/schedule/index.php?viewmode=horizontal&type=live&year=","SOLIDEMO","ha51ni6vseogm5sehlonbfvftg@group.calendar.google.com",5)
     auto_add_events(service,"http://avex.jp/callme/schedule/index.php?viewmode=&type=live&year=","callme","1nn55sdit4kb7j4vet1mdtpl50@group.calendar.google.com",6)
     auto_add_events(service,"http://avex.jp/lol/schedule/index.php?viewmode=horizontal&type=live&year=","lol","hlbr5ugekj0qh63ur41oksuekg@group.calendar.google.com",7)
-    auto_add_events_prizmmy(service,"http://avex.jp/prizmmy/live/?year=","Prizmmy","2v58103h3kkvrgjvuq755lvlts@group.calendar.google.com",8,range(2012,2017))
+    auto_add_events_prizmmy(service,"http://avex.jp/prizmmy/live/?year=","Prizmmy","2v58103h3kkvrgjvuq755lvlts@group.calendar.google.com",8,list(range(2012,2017)))
     auto_add_events(service,"http://avex.jp/x21/live/index.php?viewmode=vertical&type=live&year=","X21","u6hua9gjng9gufn0dman70ggdk@group.calendar.google.com",9)
-    auto_add_events_prizmmy(service,"http://dorothylittlehappy.jp/","DLH","a26s7iutphv3d26bp9phpksg14@group.calendar.google.com",10,range(2015,2017))
+    auto_add_events_prizmmy(service,"http://dorothylittlehappy.jp/","DLH","a26s7iutphv3d26bp9phpksg14@group.calendar.google.com",10,list(range(2015,2017)))
 
 if __name__ == '__main__':
     main()
